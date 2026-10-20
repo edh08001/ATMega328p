@@ -11,9 +11,13 @@ typedef struct {
 } grouped_pin;
 
 void delay(volatile long time); 
-unsigned char pin_set_output(unsigned char pin); 
-unsigned char pin_bit_input(unsigned char pin); 
-grouped_pin get_group_from_pin(unsigned char digit_pin);
 
+unsigned char pin_set_output(unsigned char pin); 
+unsigned char pin_set_input(unsigned char pin); 
+unsigned char pin_set_high(unsigned char pin); 
+unsigned char pin_set_low(unsigned char pin); 
+unsigned char pin_toggle(unsigned char pin); 
+
+grouped_pin get_group_from_pin(unsigned char digit_pin);
 
 #endif

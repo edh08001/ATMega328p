@@ -3,9 +3,15 @@
 #ifndef _ATM328_PINS_H 
 #define _ATM328_PINS_H
 
+#define GROUP_B_PIN_COUNT 8
+#define GROUP_C_PIN_COUNT 6
+#define GROUP_D_PIN_COUNT 8
+#define GROUP_X_PIN_COUNT 8
+
 #define GROUP_B 1
 #define GROUP_C 2
 #define GROUP_D 3
+#define GROUP_X 4
 
 #define TRUE 1
 #define FALSE 0

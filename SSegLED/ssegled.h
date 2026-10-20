@@ -3,6 +3,9 @@
 #ifndef _SSEGLED_H
 #define _SSEGLED_H
 
+#define DIGIT_PIN_COUNT 4
+#define SEGMENT_PIN_COUNT 8
+
 typedef enum {
   DIG_1 = 12,
   DIG_2 = 9,

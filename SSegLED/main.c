@@ -1,55 +1,51 @@
-#include "ssegled.h"
-#include "atm328util.h"
 #include "atm328pins.h"
+#include "atm328util.h"
+#include "ssegled.h"
 
+int main(int argc, char *argv[]) {
+  // Digits 1, 2, 3, 4
+  unsigned char digit_pins[DIGIT_PIN_COUNT] = {14, 13, 12, 11};
 
-int main(int argc, char *argv[])
-{
-  unsigned char digit_pins[4] = {14, 13, 12, 11};
+  // Segments Dec, A, B, C, D, E, F, G
+  unsigned char segment_pins[SEGMENT_PIN_COUNT] = {23, 15, 17, 24,
+                                                   19, 18, 16, 25};
 
-  for (int i = 0; i < 4; i++) {
+  // Set Digits as Output
+  for (int i = 0; i < DIGIT_PIN_COUNT; i++) {
     pin_set_output(digit_pins[i]);
   }
-  
-  //ENABLE(DDRB, 0);
-  //ENABLE(DDRD, 7);
-  //ENABLE(DDRD, 6);
-  //ENABLE(DDRD, 5);
-  ENABLE(DDRB, 1);
-  ENABLE(DDRB, 2);
-  ENABLE(DDRB, 3);
-  ENABLE(DDRB, 4);
-  ENABLE(DDRB, 5);
-  ENABLE(DDRC, 0);
-  ENABLE(DDRC, 1);
-  ENABLE(DDRC, 2);
 
-  while (1) {
-  ENABLE(PORTB, 0);
-  ENABLE(PORTD, 7);
-  ENABLE(PORTD, 6);
-  ENABLE(PORTD, 5);
-
-
-  DISABLE(PORTB, 0);
-  ENABLE(PORTB, 1);
-  ENABLE(PORTB, 2);
-  delay(20);
-  ENABLE(PORTB, 0);
-  DISABLE(PORTB, 1);
-  DISABLE(PORTB, 2);
-  delay(20);
-  DISABLE(PORTD, 7);
-  ENABLE(PORTB, 3);
-  ENABLE(PORTB, 4);
-  delay(20);
-  ENABLE(PORTD, 7);
-  DISABLE(PORTB, 3);
-  DISABLE(PORTB, 4);
-  delay(20);
-
-  
+  // Set Segments as Output
+  for (int i = 0; i < SEGMENT_PIN_COUNT; i++) {
+    pin_set_output(segment_pins[i]);
   }
 
-}
+  while (1) {
+    // Reset digit pins. Cathode = enable is reset
+    for (int i = 0; i < DIGIT_PIN_COUNT; i++) {
+      pin_set_high(digit_pins[i]);
+    }
 
+    delay(20);
+    // Turn on all digit 1 pins.
+    pin_set_low(digit_pins[0]);
+    for (int i = 0; i < SEGMENT_PIN_COUNT; i++) {
+      pin_set_high(segment_pins[i]);
+    }
+    delay(20);
+    // Turn off all digit 1 pins.
+    pin_set_high(digit_pins[0]);
+    for (int i = 0; i < SEGMENT_PIN_COUNT; i++) {
+      pin_set_low(segment_pins[i]);
+    }
+    delay(20);
+    DISABLE(PORTD, 7);
+    ENABLE(PORTB, 3);
+    ENABLE(PORTB, 4);
+    delay(20);
+    ENABLE(PORTD, 7);
+    DISABLE(PORTB, 3);
+    DISABLE(PORTB, 4);
+    delay(20);
+  }
+}
