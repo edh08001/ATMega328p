@@ -7,8 +7,8 @@ int main(int argc, char *argv[]) {
   unsigned char digit_pins[DIGIT_PIN_COUNT] = {14, 13, 12, 11};
 
   // Segments Dec, A, B, C, D, E, F, G
-  unsigned char segment_pins[SEGMENT_PIN_COUNT] = {23, 15, 17, 24,
-                                                   19, 18, 16, 25};
+  unsigned char segment_pins[SEGMENT_PIN_COUNT] = {25, 24, 23, 19,
+                                                   18, 17, 16, 15};
 
   // Set Digits as Output
   for (int i = 0; i < DIGIT_PIN_COUNT; i++) {
