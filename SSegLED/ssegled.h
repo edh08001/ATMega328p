@@ -6,35 +6,24 @@
 #define DIGIT_PIN_COUNT 4
 #define SEGMENT_PIN_COUNT 8
 
-typedef enum {
-  DIG_1 = 12,
-  DIG_2 = 9,
-  DIG_3 = 8,
-  DIG_4 = 6,
-} digit;
+  //    AAA
+  //   F   B
+  //   F   B
+  //    GGG
+  //   E   C
+  //   E   C
+  //    DDD Dec
 
-typedef enum {
-  A = 11,
-  F = 10,
-  B = 7,
-  E = 1,
-  D = 2,
-  C = 4,
-  G = 5,
-  DEC = 3
-} segment;
+  // Segments G, C, Dec, D, E, B, F, A
 
 
-typedef struct {
-  segment segment;
-  unsigned char port;
-  unsigned char pin;
-} segment_location;
-
-typedef struct {
-  digit digit;
-  unsigned char pin;
-} digit_location;
-
+int set_outputs();
+int display_single(unsigned char digit, unsigned char number);
+int set_digit_pins(unsigned char digit_pin_1, unsigned char digit_pin_2,
+                   unsigned char digit_pin_3, unsigned char digit_pin_4); 
+int set_segment_pins(unsigned char segment_pin_1, unsigned char segment_pin_2,
+                     unsigned char segment_pin_3, unsigned char segment_pin_4,
+                     unsigned char segment_pin_5, unsigned char segment_pin_6,
+                     unsigned char segment_pin_7, unsigned char segment_pin_8); 
 #endif
 

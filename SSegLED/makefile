@@ -4,14 +4,17 @@ upload: main.hex
 main.hex: combined.o
 	avr-objcopy -O ihex -j.text -j.data combined.o main.hex
 
-combined.o: main.o atm328util.o
-	avr-gcc -Os -mmcu=atmega328 main.o atm328util.o -o combined.o
+combined.o: main.o ssegled.o atm328util.o 
+	avr-gcc -Os -mmcu=atmega328 main.o ssegled.o atm328util.o -o combined.o
 
-main.o: main.c atm328util.h atm328pins.h ssegled.h
+main.o: main.c ssegled.h
 	avr-gcc -Os -c -mmcu=atmega328 main.c
 
-atm328util.o: atm328util.c atm328util.h 
+atm328util.o: atm328util.c atm328util.h atm328pins.h
 	avr-gcc -Os -c -mmcu=atmega328 atm328util.c
+
+ssegled.o: ssegled.c ssegled.h atm328util.h 
+	avr-gcc -Os -c -mmcu=atmega328 ssegled.c
 
 
 
