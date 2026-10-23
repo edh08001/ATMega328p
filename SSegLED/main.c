@@ -10,10 +10,13 @@ int main(int argc, char *argv[]) {
 
   while (1) {
     // Reset digit pins. Cathode = enable is reset
+    display_multi_number(1234);
+    /*
     for (int j = 0; j < 10; j++) {
       for (volatile long k = 0; k < 10000; k++) {
-        display_single(4, j);
+        display_single_number(4, j);
       }
     }
+    */
   }
 }

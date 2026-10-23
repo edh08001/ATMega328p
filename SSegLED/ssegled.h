@@ -18,7 +18,9 @@
 
 
 int set_outputs();
-int display_single(unsigned char digit, unsigned char number);
+int display_single_number(unsigned char digit, unsigned char number);
+int display_multi_number(int number); 
+unsigned char get_digit_count(int number); 
 int set_digit_pins(unsigned char digit_pin_1, unsigned char digit_pin_2,
                    unsigned char digit_pin_3, unsigned char digit_pin_4); 
 int set_segment_pins(unsigned char segment_pin_1, unsigned char segment_pin_2,

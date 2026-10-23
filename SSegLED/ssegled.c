@@ -20,7 +20,7 @@ unsigned char digit_pins[DIGIT_PIN_COUNT] = {14, 13, 12, 11};
 // Segments G, C, Dec, D, E, B, F, A
 unsigned char segment_pins[SEGMENT_PIN_COUNT] = {25, 24, 23, 19,
                                                  18, 17, 16, 15};
-int display_single(unsigned char digit, unsigned char number) {
+int display_single_number(unsigned char digit, unsigned char number) {
   for (int i = 0; i < DIGIT_PIN_COUNT; i++) {
     pin_set_high(digit_pins[i]);
   }
@@ -41,6 +41,29 @@ int display_single(unsigned char digit, unsigned char number) {
   }
   return 1;
 }
+
+int display_multi_number(int number) {
+  unsigned char digits = get_digit_count(number); 
+  if (digits > 4) {
+    display_single_number(2, 0);
+    return 0;
+  }
+  for (int i = 4; i > (4 - digits); i--) {
+    display_single_number(i, number % 10);
+    number /= 10; 
+  }
+  return 1;
+}
+
+unsigned char get_digit_count(int number) {
+  unsigned char digits = 1;
+  while (number / 10 != 0) {
+    number /= 10;
+    digits++;
+  }
+  return digits;
+}
+
 
 int set_digit_pins(unsigned char digit_pin_1, unsigned char digit_pin_2,
                    unsigned char digit_pin_3, unsigned char digit_pin_4) {
