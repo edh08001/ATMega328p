@@ -24,11 +24,11 @@ int display_single_number(unsigned char digit, unsigned char number) {
   for (int i = 0; i < DIGIT_PIN_COUNT; i++) {
     pin_set_high(digit_pins[i]);
   }
-
   // Turn on all digit 1 pins.
   pin_set_low(digit_pins[digit - 1]);
   for (int i = 0; i < SEGMENT_PIN_COUNT; i++) {
     if (numbers[number] & (1u << (7 - i))) {
+      delay(60);
       pin_set_high(segment_pins[i]);
     }
   }

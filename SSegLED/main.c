@@ -3,6 +3,8 @@
 int main(int argc, char *argv[]) {
 
   // Digits 1, 2, 3, 4
+  setup_pins();
+
   set_digit_pins(14, 13, 12, 11);
 
   // Segments G, C, Dec, D, E, B, F, A
@@ -10,7 +12,7 @@ int main(int argc, char *argv[]) {
 
   while (1) {
     // Reset digit pins. Cathode = enable is reset
-    display_multi_number(1234);
+    display_multi_number(8888);
     /*
     for (int j = 0; j < 10; j++) {
       for (volatile long k = 0; k < 10000; k++) {

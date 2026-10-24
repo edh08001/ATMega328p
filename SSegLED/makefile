@@ -10,7 +10,7 @@ combined.o: main.o ssegled.o atm328util.o
 main.o: main.c ssegled.h
 	avr-gcc -Os -c -mmcu=atmega328 main.c
 
-atm328util.o: atm328util.c atm328util.h atm328pins.h
+atm328util.o: atm328util.c atm328util.h
 	avr-gcc -Os -c -mmcu=atmega328 atm328util.c
 
 ssegled.o: ssegled.c ssegled.h atm328util.h 
