@@ -7,7 +7,7 @@ main.hex: combined.o
 combined.o: main.o ssegled.o atm328util.o 
 	avr-gcc -Os -mmcu=atmega328 main.o ssegled.o atm328util.o -o combined.o
 
-main.o: main.c ssegled.h
+main.o: main.c ssegled.h atm328util.h
 	avr-gcc -Os -c -mmcu=atmega328 main.c
 
 atm328util.o: atm328util.c atm328util.h
