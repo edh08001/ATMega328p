@@ -1,14 +1,12 @@
-#include "ssegled.h"
 #include "atm328util.h"
-
-
-
+#include "ssegled.h"
+#include "time.h"
 
 int main(int argc, char *argv[]) {
 
   // Digits 1, 2, 3, 4
   setup_pins();
-  setup_timer();
+  start_time();
 
   set_digit_pins(14, 13, 12, 11);
 
@@ -17,14 +15,12 @@ int main(int argc, char *argv[]) {
 
   while (1) {
 
-
     /*
     if (REG_TIFR1 & BIT_OCF1A){
       flags++;
       REG_TIFR1 = BIT_OCF1A;
-    } 
+    }
     */
-    
     display_multi_number(get_time());
     /*
     for (int j = 0; j < 10; j++) {
