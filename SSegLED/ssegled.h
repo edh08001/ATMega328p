@@ -17,8 +17,8 @@
   // Segments G, C, Dec, D, E, B, F, A
 
 
-int set_outputs();
-int display_single_number(unsigned char digit, unsigned char number);
+void set_outputs(uint8_t arr[8], uint8_t len); 
+void display_single_number(unsigned char digit, unsigned char number);
 int display_multi_number(int number); 
 unsigned char get_digit_count(int number); 
 int display_scrolling_number(int number); 

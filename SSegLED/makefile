@@ -16,7 +16,7 @@ time.o: time.c time.h
 atm328util.o: atm328util.c atm328util.h
 	avr-gcc -Os -c -mmcu=atmega328 atm328util.c
 
-ssegled.o: ssegled.c ssegled.h atm328util.h 
+ssegled.o: ssegled.c ssegled.h atm328util.h time.h 
 	avr-gcc -Os -c -mmcu=atmega328 ssegled.c
 
 

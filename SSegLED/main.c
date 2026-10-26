@@ -4,10 +4,12 @@
 
 int main(int argc, char *argv[]) {
 
-  // Digits 1, 2, 3, 4
+  uint32_t timer = 5;
+  volatile uint8_t returner;
   setup_pins();
   start_time();
 
+  // Digits 1, 2, 3, 4
   set_digit_pins(14, 13, 12, 11);
 
   // Segments G, C, Dec, D, E, B, F, A
@@ -15,19 +17,6 @@ int main(int argc, char *argv[]) {
 
   while (1) {
 
-    /*
-    if (REG_TIFR1 & BIT_OCF1A){
-      flags++;
-      REG_TIFR1 = BIT_OCF1A;
-    }
-    */
-    display_multi_number(get_time());
-    /*
-    for (int j = 0; j < 10; j++) {
-      for (volatile long k = 0; k < 10000; k++) {
-        display_single_number(4, j);
-      }
-    }
-    */
+    display_scrolling_number(1234);
   }
 }

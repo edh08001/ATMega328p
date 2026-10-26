@@ -1,6 +1,6 @@
 #include "time.h"
 
-uint32_t time = 0;
+uint64_t time = 0;
 
 extern void __vector_11(void) {
   time += 1; 
@@ -15,11 +15,11 @@ void start_time(void) {
   // 2. Set CTC mode (WGM12 = 1)
   REG_TCCR1B |= BIT_WGM12;
 
-  // 3. Set prescaler to 256 (CS12 = 1)
-  REG_TCCR1B |= BIT_CS12;
+  // 3. Set prescaler to 64 (CS10 | CS11)
+  REG_TCCR1B |= (BIT_CS11 | BIT_CS10);
   
-  // 4. Set compare match value for 1 second (62499)
-  REG_OCR1A = 62499;
+  // 4. Set compare match value for 1/1000 of a second (250)
+  REG_OCR1A = 250;
 
   // 5. Enable Timer1 compare match A interrupt via address 0x6F
   REG_TIMSK1 |= BIT_OCIE1A;
@@ -28,7 +28,7 @@ void start_time(void) {
   
 }
 
-uint16_t get_time(void) {
+uint32_t get_time(void) {
   return time;
 }
 
@@ -36,10 +36,18 @@ void reset_time(void) {
   time = 0;
 }
 
-void wait(uint32_t time) {
-  volatile uint32_t start_time = get_time();
-  uint32_t end_time = start_time + time;
-  while (get_time() <= end_time) {
-    start_time++;
+void wait(volatile uint32_t wait_time) {
+  uint32_t end_time = 0;
+  uint8_t timer_started = 0;
+  if (!timer_started) {
+    end_time = get_time() + wait_time;
+    timer_started = 1;
+  }
+
+  while (timer_started == 1) {
+    if (end_time - get_time() == 0) {
+      timer_started = 0;
+    } else {
+    }
   }
 }

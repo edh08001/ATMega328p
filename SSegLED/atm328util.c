@@ -4,7 +4,6 @@
 const uint8_t PB_Pins[GROUP_B_PIN_COUNT] = {14, 15, 16, 17, 18, 19, 9, 10};
 const uint8_t PC_Pins[GROUP_C_PIN_COUNT] = {23, 24, 25, 26, 27, 28};
 const uint8_t PD_Pins[GROUP_D_PIN_COUNT] = {2, 3, 4, 5, 6, 11, 12, 13};
-const uint8_t PX_Pins[GROUP_X_PIN_COUNT] = {1, 7, 8, 9, 10, 20, 21, 22};
 
 grouped_pin grouped_pins[TOTAL_PINS + 1];
 
@@ -14,109 +13,67 @@ void setup_pins(void) {
   }
 }
 
-void delay(volatile long time) {
-  while (time != 0) {
-    time--;
-  }
-}
-
-// Takes a pin (Actual #, TOP LEFT/RESET = 1 | TOP RIGHT/PC5 = 28) and sets data
-// direction as out
-uint8_t pin_set_output(uint8_t pin) {
+//Sets the pin based on the mode. Modes may be INPUT, OUTPUT, HIGH, LOW
+void pin_set(uint8_t pin, uint8_t mode) {
   grouped_pin group = grouped_pins[pin];
-  switch (group.group) {
+  switch(group.group){
   case GROUP_B:
-    ENABLE(DDRB, group.pin);
+    switch(mode) {
+    case OUTPUT:
+      ENABLE(REG_DDRB, group.pin);
+      break;
+    case INPUT:
+      DISABLE(REG_DDRB, group.pin);
+      break;
+    case HIGH:
+      ENABLE(REG_PORTB, group.pin);
+      break;
+    case LOW:
+      DISABLE(REG_PORTB, group.pin);
+    default:
+      break;
+    }
     break;
   case GROUP_C:
-    ENABLE(DDRC, group.pin);
+    switch(mode) {
+    case OUTPUT:
+      ENABLE(REG_DDRC, group.pin);
+      break;
+    case INPUT:
+      DISABLE(REG_DDRC, group.pin);
+      break;
+    case HIGH:
+      ENABLE(REG_PORTC, group.pin);
+      break;
+    case LOW:
+      DISABLE(REG_PORTC, group.pin);
+    default:
+      break;
+    }
     break;
   case GROUP_D:
-    ENABLE(DDRD, group.pin);
+    switch(mode) {
+    case OUTPUT:
+      ENABLE(REG_DDRD, group.pin);
+      break;
+    case INPUT:
+      DISABLE(REG_DDRD, group.pin);
+      break;
+    case HIGH:
+      ENABLE(REG_PORTD, group.pin);
+      break;
+    case LOW:
+      DISABLE(REG_PORTD, group.pin);
+    default:
+      break;
+    }
     break;
   default:
-    return 0;
+    break;
   }
-  return 1;
 }
 
-// Takes a pin (Actual #, TOP LEFT/RESET = 1 | TOP RIGHT/PC5 = 28) and sets data
-// direction as in
-uint8_t pin_set_input(uint8_t pin) {
-  // grouped_pin group = get_group_from_pin(pin);
-  grouped_pin group = grouped_pins[pin];
-  switch (group.group) {
-  case GROUP_B:
-    DISABLE(DDRB, group.pin);
-    break;
-  case GROUP_C:
-    DISABLE(DDRC, group.pin);
-    break;
-  case GROUP_D:
-    DISABLE(DDRD, group.pin);
-    break;
-  default:
-    return 0;
-  }
-  return 1;
-}
-
-uint8_t pin_set_high(uint8_t pin) {
-  // grouped_pin group = get_group_from_pin(pin);
-  grouped_pin group = grouped_pins[pin];
-  switch (group.group) {
-  case GROUP_B:
-    ENABLE(PORTB, group.pin);
-    break;
-  case GROUP_C:
-    ENABLE(PORTC, group.pin);
-    break;
-  case GROUP_D:
-    ENABLE(PORTD, group.pin);
-    break;
-  default:
-    return 0;
-  }
-  return 1;
-}
-
-uint8_t pin_set_low(uint8_t pin) {
-  grouped_pin group = grouped_pins[pin];
-  switch (group.group) {
-  case GROUP_B:
-    DISABLE(PORTB, group.pin);
-    break;
-  case GROUP_C:
-    DISABLE(PORTC, group.pin);
-    break;
-  case GROUP_D:
-    DISABLE(PORTD, group.pin);
-    break;
-  default:
-    return 0;
-  }
-  return 1;
-}
-
-uint8_t pin_toggle(uint8_t pin) {
-  grouped_pin group = grouped_pins[pin];
-  switch (group.group) {
-  case GROUP_B:
-    TOGGLE(PORTB, group.pin);
-    break;
-  case GROUP_C:
-    TOGGLE(PORTC, group.pin);
-    break;
-  case GROUP_D:
-    TOGGLE(PORTD, group.pin);
-    break;
-  default:
-    return 0;
-  }
-  return 1;
-}
-
-// Get the pin group (B, C, D, or X (Ancillary) and the group specific pin (i.e.
+// Get the pin group (B, C, or D and the group specific pin (i.e.
 // PC5 returns GROUP_C and 5)
 grouped_pin get_group_from_pin(uint8_t digit_pin) {
   for (int j = 0; j < GROUP_B_PIN_COUNT; j++) {
