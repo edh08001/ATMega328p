@@ -1,75 +1,92 @@
 #include "atm328util.h"
-#include "atm328pins.h"
+#include <stdint.h>
 
-#define GROUP_B_PIN_COUNT 8
-#define GROUP_C_PIN_COUNT 6
-#define GROUP_D_PIN_COUNT 8
-#define GROUP_X_PIN_COUNT 8
+grouped_pin grouped_pins[TOTAL_PINS + 1] = {{.group = 0, .bit = 0},
+                                            {.group = GROUP_C, .bit = PC6},
+                                            {.group = GROUP_D, .bit = PD0},
+                                            {.group = GROUP_D, .bit = PD1},
+                                            {.group = GROUP_D, .bit = PD2},
+                                            {.group = GROUP_D, .bit = PD3},
+                                            {.group = GROUP_D, .bit = PD4},
+                                            {.group = 0, .bit = 0},
+                                            {.group = 0, .bit = 0},
+                                            {.group = GROUP_B, .bit = PB6},
+                                            {.group = GROUP_B, .bit = PB7},
+                                            {.group = GROUP_D, .bit = PD5},
+                                            {.group = GROUP_D, .bit = PD6},
+                                            {.group = GROUP_D, .bit = PD7},
+                                            {.group = GROUP_B, .bit = PB0},
+                                            {.group = GROUP_B, .bit = PB1},
+                                            {.group = GROUP_B, .bit = PB2},
+                                            {.group = GROUP_B, .bit = PB3},
+                                            {.group = GROUP_B, .bit = PB4},
+                                            {.group = GROUP_B, .bit = PB5},
+                                            {.group = 0, .bit = 0},
+                                            {.group = 0, .bit = 0},
+                                            {.group = 0, .bit = 0},
+                                            {.group = GROUP_C, .bit = PC0},
+                                            {.group = GROUP_C, .bit = PC1},
+                                            {.group = GROUP_C, .bit = PC2},
+                                            {.group = GROUP_C, .bit = PC3},
+                                            {.group = GROUP_C, .bit = PC4},
+                                            {.group = GROUP_C, .bit = PC5}};
 
-const unsigned char PB_Pins[GROUP_B_PIN_COUNT] = {14, 15, 16, 17, 18, 19, 9, 10};
-const unsigned char PC_Pins[GROUP_C_PIN_COUNT] = {23, 24, 25, 26, 27, 28};
-const unsigned char PD_Pins[GROUP_D_PIN_COUNT] = {2, 3, 4, 5, 6, 11, 12, 13};
-
-void delay(volatile long time) {
-  while (time != 0) {
-    time--;
-  }
-}
-
-//Takes a pin (Actual #, TOP LEFT/RESET = 1 | TOP RIGHT/PC5 = 28) and sets data direction as out 
-unsigned char pin_set_output(unsigned char pin) {
-  grouped_pin group = get_group_from_pin(pin);
-  switch (group.group) {
-    case GROUP_B: 
-      ENABLE(DDRB, group.group_pin);
+//Sets the pin based on the mode. Modes may be INPUT, OUTPUT, HIGH, LOW
+void pin_set(uint8_t pin, uint8_t mode) {
+  grouped_pin group = grouped_pins[pin];
+  switch(group.group){
+  case GROUP_B:
+    switch(mode) {
+    case OUTPUT:
+      ENABLE(REG_DDRB, group.bit);
       break;
-    case GROUP_C: 
-      ENABLE(DDRC, group.group_pin);
+    case INPUT:
+      DISABLE(REG_DDRB, group.bit);
       break;
-    case GROUP_D: 
-      ENABLE(DDRD, group.group_pin);
+    case HIGH:
+      ENABLE(REG_PORTB, group.bit);
       break;
-    default: 
-      return 0;
-  }
-  return 1;
-}
-
-//Takes a pin (Actual #, TOP LEFT/RESET = 1 | TOP RIGHT/PC5 = 28) and sets data direction as in
-unsigned char pin_set_input(unsigned char pin) {
-  grouped_pin group = get_group_from_pin(pin);
-  switch (group.group) {
-    case GROUP_B: 
-      DISABLE(DDRB, group.group_pin);
+    case LOW:
+      DISABLE(REG_PORTB, group.bit);
+    default:
       break;
-    case GROUP_C: 
-      DISABLE(DDRC, group.group_pin);
-      break;
-    case GROUP_D: 
-      DISABLE(DDRD, group.group_pin);
-      break;
-    default: 
-      return 0;
-  }
-  return 1;
-}
-
-grouped_pin get_group_from_pin(unsigned char digit_pin) {
-  for (int i = 0; i < 4; i++) {
-    for (int j = 0; j < GROUP_B_PIN_COUNT; j++) {
-      if (digit_pin == PB_Pins[j]) {
-
-        return (grouped_pin){.group = GROUP_B, .group_pin = j};
-      }
-      if (digit_pin == PD_Pins[j]) {
-        return (grouped_pin){.group = GROUP_D, .group_pin = j};
-      }
     }
-    for (int j = 0; j < GROUP_C_PIN_COUNT; j++) {
-      if (digit_pin == PC_Pins[j]) {
-        return (grouped_pin){.group = GROUP_C, .group_pin = j};
-      }
+    break;
+  case GROUP_C:
+    switch(mode) {
+    case OUTPUT:
+      ENABLE(REG_DDRC, group.bit);
+      break;
+    case INPUT:
+      DISABLE(REG_DDRC, group.bit);
+      break;
+    case HIGH:
+      ENABLE(REG_PORTC, group.bit);
+      break;
+    case LOW:
+      DISABLE(REG_PORTC, group.bit);
+    default:
+      break;
     }
+    break;
+  case GROUP_D:
+    switch(mode) {
+    case OUTPUT:
+      ENABLE(REG_DDRD, group.bit);
+      break;
+    case INPUT:
+      DISABLE(REG_DDRD, group.bit);
+      break;
+    case HIGH:
+      ENABLE(REG_PORTD, group.bit);
+      break;
+    case LOW:
+      DISABLE(REG_PORTD, group.bit);
+    default:
+      break;
+    }
+    break;
+  default:
+    break;
   }
-  return (grouped_pin){.group = 0, .group_pin = 0};
 }

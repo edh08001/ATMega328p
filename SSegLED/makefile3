@@ -1,8 +1,0 @@
-debug: main.o atm328util.o
-	gcc -g -o debug main.o atm328util.o
-
-main.o: main.c ssegled.h atm328util.h atm328pins.h
-	gcc -g -c main.c
-
-atm328util.o: atm328util.c atm328util.h atm328pins.h
-	gcc -g -c atm328util.c
