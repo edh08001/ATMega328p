@@ -35,7 +35,6 @@
 #define BIT_PB5 (1 << 5)
 #define BIT_PB6 (1 << 6)
 #define BIT_PB7 (1 << 7)
-#define BIT_PB8 (1 << 8)
 
 #define BIT_PD0 (1 << 0)
 #define BIT_PD1 (1 << 1)
@@ -45,7 +44,6 @@
 #define BIT_PD5 (1 << 5)
 #define BIT_PD6 (1 << 6)
 #define BIT_PD7 (1 << 7)
-#define BIT_PD8 (1 << 8)
 
 #define BIT_PC0 (1 << 0)
 #define BIT_PC1 (1 << 1)
@@ -53,7 +51,33 @@
 #define BIT_PC3 (1 << 3)
 #define BIT_PC4 (1 << 4)
 #define BIT_PC5 (1 << 5)
+#define BIT_PC6 (1 << 6)
 
+#define PB0 0
+#define PB1 1
+#define PB2 2
+#define PB3 3
+#define PB4 4
+#define PB5 5
+#define PB6 6
+#define PB7 7
+
+#define PD0 0
+#define PD1 1
+#define PD2 2
+#define PD3 3
+#define PD4 4
+#define PD5 5
+#define PD6 6
+#define PD7 7
+
+#define PC0 0
+#define PC1 1
+#define PC2 2
+#define PC3 3
+#define PC4 4
+#define PC5 5
+#define PC6 6
 
 #define TOGGLE(x, y)  ((x) ^= (1 << (y))) 
 #define ENABLE(x, y)  ((x) |= (1 << (y))) 
@@ -62,12 +86,9 @@
 typedef struct {
   uint8_t group;
   uint8_t address;
-  uint8_t pin;
+  uint8_t bit;
 } grouped_pin;
 
-void setup_pins(void); 
-
 void pin_set(uint8_t pin, uint8_t mode);
-grouped_pin get_group_from_pin(uint8_t digit_pin);
 
 #endif

@@ -4,9 +4,7 @@
 
 int main(int argc, char *argv[]) {
 
-  uint32_t timer = 5;
-  volatile uint8_t returner;
-  setup_pins();
+  //setup_pins();
   start_time();
 
   // Digits 1, 2, 3, 4

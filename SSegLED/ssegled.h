@@ -18,16 +18,16 @@
 
 
 void set_outputs(uint8_t arr[8], uint8_t len); 
-void display_single_number(unsigned char digit, unsigned char number);
-int display_multi_number(int number); 
-unsigned char get_digit_count(int number); 
-int display_scrolling_number(int number); 
-int get_specific_digit(int position, int number); 
-int set_digit_pins(unsigned char digit_pin_1, unsigned char digit_pin_2,
-                   unsigned char digit_pin_3, unsigned char digit_pin_4); 
-int set_segment_pins(unsigned char segment_pin_1, unsigned char segment_pin_2,
-                     unsigned char segment_pin_3, unsigned char segment_pin_4,
-                     unsigned char segment_pin_5, unsigned char segment_pin_6,
-                     unsigned char segment_pin_7, unsigned char segment_pin_8); 
+void display_single_number(uint8_t digit, uint8_t number);
+uint16_t display_multi_number(uint16_t number); 
+uint8_t get_digit_count(uint32_t number); 
+uint8_t display_scrolling_number(uint32_t number); 
+uint8_t get_specific_digit(uint8_t position, uint32_t number); 
+uint8_t set_digit_pins(uint8_t digit_pin_1, uint8_t digit_pin_2,
+                       uint8_t digit_pin_3, uint8_t digit_pin_4); 
+uint8_t set_segment_pins(uint8_t segment_pin_1, uint8_t segment_pin_2,
+                         uint8_t segment_pin_3, uint8_t segment_pin_4,
+                         uint8_t segment_pin_5, uint8_t segment_pin_6,
+                         uint8_t segment_pin_7, uint8_t segment_pin_8); 
 #endif
 

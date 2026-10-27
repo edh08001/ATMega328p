@@ -1,17 +1,35 @@
 #include "atm328util.h"
 #include <stdint.h>
 
-const uint8_t PB_Pins[GROUP_B_PIN_COUNT] = {14, 15, 16, 17, 18, 19, 9, 10};
-const uint8_t PC_Pins[GROUP_C_PIN_COUNT] = {23, 24, 25, 26, 27, 28};
-const uint8_t PD_Pins[GROUP_D_PIN_COUNT] = {2, 3, 4, 5, 6, 11, 12, 13};
-
-grouped_pin grouped_pins[TOTAL_PINS + 1];
-
-void setup_pins(void) {
-  for (int i = 1; i < TOTAL_PINS + 1; i++) {
-    grouped_pins[i] = get_group_from_pin(i);
-  }
-}
+grouped_pin grouped_pins[TOTAL_PINS + 1] = {{.group = 0, .bit = 0},
+                                            {.group = GROUP_C, .bit = PC6},
+                                            {.group = GROUP_D, .bit = PD0},
+                                            {.group = GROUP_D, .bit = PD1},
+                                            {.group = GROUP_D, .bit = PD2},
+                                            {.group = GROUP_D, .bit = PD3},
+                                            {.group = GROUP_D, .bit = PD4},
+                                            {.group = 0, .bit = 0},
+                                            {.group = 0, .bit = 0},
+                                            {.group = GROUP_B, .bit = PB6},
+                                            {.group = GROUP_B, .bit = PB7},
+                                            {.group = GROUP_D, .bit = PD5},
+                                            {.group = GROUP_D, .bit = PD6},
+                                            {.group = GROUP_D, .bit = PD7},
+                                            {.group = GROUP_B, .bit = PB0},
+                                            {.group = GROUP_B, .bit = PB1},
+                                            {.group = GROUP_B, .bit = PB2},
+                                            {.group = GROUP_B, .bit = PB3},
+                                            {.group = GROUP_B, .bit = PB4},
+                                            {.group = GROUP_B, .bit = PB5},
+                                            {.group = 0, .bit = 0},
+                                            {.group = 0, .bit = 0},
+                                            {.group = 0, .bit = 0},
+                                            {.group = GROUP_C, .bit = PC0},
+                                            {.group = GROUP_C, .bit = PC1},
+                                            {.group = GROUP_C, .bit = PC2},
+                                            {.group = GROUP_C, .bit = PC3},
+                                            {.group = GROUP_C, .bit = PC4},
+                                            {.group = GROUP_C, .bit = PC5}};
 
 //Sets the pin based on the mode. Modes may be INPUT, OUTPUT, HIGH, LOW
 void pin_set(uint8_t pin, uint8_t mode) {
@@ -20,16 +38,16 @@ void pin_set(uint8_t pin, uint8_t mode) {
   case GROUP_B:
     switch(mode) {
     case OUTPUT:
-      ENABLE(REG_DDRB, group.pin);
+      ENABLE(REG_DDRB, group.bit);
       break;
     case INPUT:
-      DISABLE(REG_DDRB, group.pin);
+      DISABLE(REG_DDRB, group.bit);
       break;
     case HIGH:
-      ENABLE(REG_PORTB, group.pin);
+      ENABLE(REG_PORTB, group.bit);
       break;
     case LOW:
-      DISABLE(REG_PORTB, group.pin);
+      DISABLE(REG_PORTB, group.bit);
     default:
       break;
     }
@@ -37,16 +55,16 @@ void pin_set(uint8_t pin, uint8_t mode) {
   case GROUP_C:
     switch(mode) {
     case OUTPUT:
-      ENABLE(REG_DDRC, group.pin);
+      ENABLE(REG_DDRC, group.bit);
       break;
     case INPUT:
-      DISABLE(REG_DDRC, group.pin);
+      DISABLE(REG_DDRC, group.bit);
       break;
     case HIGH:
-      ENABLE(REG_PORTC, group.pin);
+      ENABLE(REG_PORTC, group.bit);
       break;
     case LOW:
-      DISABLE(REG_PORTC, group.pin);
+      DISABLE(REG_PORTC, group.bit);
     default:
       break;
     }
@@ -54,16 +72,16 @@ void pin_set(uint8_t pin, uint8_t mode) {
   case GROUP_D:
     switch(mode) {
     case OUTPUT:
-      ENABLE(REG_DDRD, group.pin);
+      ENABLE(REG_DDRD, group.bit);
       break;
     case INPUT:
-      DISABLE(REG_DDRD, group.pin);
+      DISABLE(REG_DDRD, group.bit);
       break;
     case HIGH:
-      ENABLE(REG_PORTD, group.pin);
+      ENABLE(REG_PORTD, group.bit);
       break;
     case LOW:
-      DISABLE(REG_PORTD, group.pin);
+      DISABLE(REG_PORTD, group.bit);
     default:
       break;
     }
@@ -71,21 +89,4 @@ void pin_set(uint8_t pin, uint8_t mode) {
   default:
     break;
   }
-}
-
-// Get the pin group (B, C, or D and the group specific pin (i.e.
-// PC5 returns GROUP_C and 5)
-grouped_pin get_group_from_pin(uint8_t digit_pin) {
-  for (int j = 0; j < GROUP_B_PIN_COUNT; j++) {
-    if (digit_pin == PB_Pins[j]) {
-      return (grouped_pin){.group = GROUP_B, .pin = j};
-    }
-    if (digit_pin == PD_Pins[j]) {
-      return (grouped_pin){.group = GROUP_D, .pin = j};
-    }
-    if (j < GROUP_C_PIN_COUNT && (digit_pin == PC_Pins[j])) {
-      return (grouped_pin){.group = GROUP_C, .pin = j};
-    }
-  }
-  return (grouped_pin){.group = 0, .pin = 0};
 }
