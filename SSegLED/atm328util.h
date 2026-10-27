@@ -85,7 +85,6 @@
 
 typedef struct {
   uint8_t group;
-  uint8_t address;
   uint8_t bit;
 } grouped_pin;
 
