@@ -26,12 +26,14 @@ int main(int argc, char *argv[])
   USART_Init(MYUBRR);
 
   while(1) {
-  
+    /*
     USART_Transmit(0x4D);
     USART_Transmit(0x4F);
     USART_Transmit(0x4F);
     USART_Transmit('\r');
     USART_Transmit('\n');
+    */
+    USART_Transmit_String("Hello!");
     wait(1000);
     
   }

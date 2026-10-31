@@ -20,7 +20,22 @@
 #define UCSZ01 2
 #define UDRE0 5
 
+/**********************************************************************
+ * USART_Init                                                         *
+ * Initializes the USART capabilities of the microcontroller. Takes a *
+ * uint8_t which is the scale factor as defined in the manual.        *
+ * This value is calculated:   (clkspeed (hz) / 16 / baud rate - 1)   *
+ **********************************************************************/
 void USART_Init(uint8_t ubrr); 
 void USART_Transmit(uint8_t data); 
+
+/**********************************************************************
+ * USART_Transmit_String                                              *
+ * Takes a character array and transmits it one                       *
+ * by one until it comes across a null termiator (\0). Strings must   *
+ * be null terminated, else the transmission behavior will overflow   *
+ * the size of the array and the behavior will be undefined.          *
+ **********************************************************************/
+uint8_t USART_Transmit_String(char *string);
 
 #endif

@@ -16,3 +16,17 @@ void USART_Transmit(uint8_t data) {
 
   REG_UDR0 = data;
 }
+
+uint8_t USART_Transmit_String(char *string) {
+  char *arr = string;
+  uint8_t tx_len = 0;
+  while (*arr != '\0') {
+    USART_Transmit(*arr);
+    arr++;
+    tx_len++;
+  }
+  USART_Transmit('\r');
+  USART_Transmit('\n');
+  return tx_len;
+}
+
