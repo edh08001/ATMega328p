@@ -4,8 +4,8 @@ upload: main.hex
 main.hex: combined.o
 	avr-objcopy -O ihex -j.text -j.data combined.o main.hex
 
-combined.o: main.o time.o usart.o
-	avr-gcc -Os -mmcu=atmega328 main.o time.o usart.o -o combined.o
+combined.o: main.o time.o usart.o util.o
+	avr-gcc -Os -mmcu=atmega328 main.o time.o usart.o util.o -o combined.o
 
 main.o: main.c time.h usart.h
 	avr-gcc -Os -c -mmcu=atmega328 main.c
@@ -15,3 +15,6 @@ time.o: time.c time.h
 
 usart.o: usart.c usart.h
 	avr-gcc -Os -c -mmcu=atmega328 usart.c
+
+util.o: util.c util.o
+	avr-gcc -Os -c -mmcu=atmega328 util.c

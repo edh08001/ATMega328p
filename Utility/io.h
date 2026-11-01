@@ -1,7 +1,7 @@
 #include <stdint.h>
 
-#ifndef ATM328_UTIL_H
-#define ATM328_UTIL_H
+#ifndef IO_H
+#define IO_H
 
 #define TOTAL_PINS 28
 #define GROUP_B_PIN_COUNT 8
