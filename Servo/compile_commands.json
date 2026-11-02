@@ -1,0 +1,24 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/avr-gcc",
+      "-Os",
+      "-c",
+      "-mmcu=atmega328",
+      "main.c"
+    ],
+    "directory": "/home/eli/Documents/Programming/ATMega328p/Servo",
+    "file": "/home/eli/Documents/Programming/ATMega328p/Servo/main.c"
+  },
+  {
+    "arguments": [
+      "/usr/bin/avr-gcc",
+      "-Os",
+      "-c",
+      "-mmcu=atmega328",
+      "servo.c"
+    ],
+    "directory": "/home/eli/Documents/Programming/ATMega328p/Servo",
+    "file": "/home/eli/Documents/Programming/ATMega328p/Servo/servo.c"
+  }
+]
