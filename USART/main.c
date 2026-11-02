@@ -1,4 +1,3 @@
-#include <stdint.h>
 #include "time.h"
 #include "usart.h"
 
@@ -8,15 +7,13 @@
 
 int main(int argc, char *argv[])
 {
- 
-  start_time();
   USART_Init(MYUBRR);
-  uint64_t num = 44294967295;
+  start_time();
 
   while(1) {
-    USART_Transmit_Number(num, false);
-    USART_Transmit_String(" is my number!", true);
+    USART_Transmit_String("Hi?", true);
     wait(1000);
+    //USART_Transmit_String(" is my number!", true);
   }
 
 }

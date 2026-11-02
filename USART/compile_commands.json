@@ -1,0 +1,13 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/avr-gcc",
+      "-Os",
+      "-c",
+      "-mmcu=atmega328",
+      "main.c"
+    ],
+    "directory": "/home/eli/Documents/Programming/ATMega328p/USART",
+    "file": "/home/eli/Documents/Programming/ATMega328p/USART/main.c"
+  }
+]

@@ -1,28 +1,29 @@
 #include "time.h"
 
-uint64_t time = 0;
+uint32_t time = 0;
 
-extern void __vector_11(void) {
+extern void __vector_14(void) {
   time += 1; 
 }
 
 void start_time(void) {
   // Sets the timer to run (clk/1024 prescaling)
-  REG_TCCR1A = 0;
-  REG_TCCR1B = 0;
-  REG_TCNT1 = 0;
+  REG_TCCR0A = 0;
+  REG_TCCR0B = 0;
+  REG_TCNT0 = 0;
 
-  // 2. Set CTC mode (WGM12 = 1)
-  REG_TCCR1B |= BIT_WGM12;
+  // Set CTC mode 
+  REG_TCCR0A |= BIT_WGM01;
 
-  // 3. Set prescaler to 64 (CS10 | CS11)
-  REG_TCCR1B |= (BIT_CS11 | BIT_CS10);
-  
-  // 4. Set compare match value for 1/1000 of a second (250)
-  REG_OCR1A = 250;
+  // Set compare match value for 1/1000 of a second (250)
+  REG_OCR0A = 249;
 
-  // 5. Enable Timer1 compare match A interrupt via address 0x6F
-  REG_TIMSK1 |= BIT_OCIE1A;
+  // Set prescaler to 64 (CS00 | CS01)
+  REG_TCCR0B |= BIT_CS01;
+  REG_TCCR0B |= BIT_CS00;
+
+  // Enable Timer1 compare match A interrupt via address 0x6F
+  REG_TIMSK0 |= BIT_OCIE0A;
 
   REG_SREG |= BIT_INTERRUPT;
   
