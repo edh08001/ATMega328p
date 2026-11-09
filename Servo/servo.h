@@ -5,16 +5,17 @@
 
 #define MAX_SERVOS 8 
 
-#define REG_SREG   (*(volatile uint8_t  *)0x5F)
-#define REG_TCCR1A (*(volatile uint8_t  *)0x80)
-#define REG_TCCR1B (*(volatile uint8_t  *)0x81)
-#define REG_TCNT1  (*(volatile uint16_t *)0x84)
-#define REG_OCR1AH (*(volatile uint16_t *)0x88)
-#define REG_OCR1AL (*(volatile uint16_t *)0x88)
-#define REG_OCR1BH (*(volatile uint16_t *)0x8B)
-#define REG_OCR1BL (*(volatile uint16_t *)0x8A)
-#define REG_TIMSK1 (*(volatile uint8_t  *)0x6F)
-#define REG_TIFR1  (*(volatile uint8_t  *)0x36)
+#define REG_SREG   (*(volatile uint8_t *)0x5F)
+#define REG_TCCR1A (*(volatile uint8_t *)0x80)
+#define REG_TCCR1B (*(volatile uint8_t *)0x81)
+#define REG_TCNT1H (*(volatile uint8_t *)0x85)
+#define REG_TCNT1L (*(volatile uint8_t *)0x84)
+#define REG_OCR1AH (*(volatile uint8_t *)0x89)
+#define REG_OCR1AL (*(volatile uint8_t *)0x88)
+#define REG_OCR1BH (*(volatile uint8_t *)0x8B)
+#define REG_OCR1BL (*(volatile uint8_t *)0x8A)
+#define REG_TIMSK1 (*(volatile uint8_t *)0x6F)
+#define REG_TIFR1  (*(volatile uint8_t *)0x36)
 
 #define BIT_WGM12     (1 << 3)
 #define BIT_CS12      (1 << 2)
@@ -32,6 +33,8 @@ typedef struct {
 
 void start_servo_service(void); 
 int compare_by_pulse(const void *a, const void *b);
+void sort_servos(void); 
+void set_servo_pin(uint8_t pin); 
 
 
 #endif
