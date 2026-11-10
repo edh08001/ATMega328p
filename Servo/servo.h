@@ -33,6 +33,7 @@ typedef struct {
 
 void start_servo_service(void); 
 int compare_by_pulse(const void *a, const void *b);
+void change_servo_position(uint8_t pin, uint16_t degree); 
 void sort_servos(void); 
 void set_servo_pin(uint8_t pin); 
 

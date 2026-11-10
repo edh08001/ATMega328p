@@ -22,11 +22,15 @@ ISR(TIMER1_COMPA_vect) {
 
 ISR(TIMER1_COMPB_vect) {
 
-  if (servo_count > 0) {
+  //if (servo_count > 0) {
     // Set reg B interrupt to occur on the earliest active servo pin.
     pin_set(servopins[current_servo].pin, LOW);
-  }
+  //}
 
+  while(current_servo < MAX_SERVOS - 1 && servopins[current_servo].pulse_width == servopins[current_servo + 1].pulse_width) {
+    pin_set(servopins[current_servo+1].pin, LOW);
+    current_servo++;
+  }
   if (current_servo < MAX_SERVOS - 1) {
     current_servo++;
     REG_OCR1BH = servopins[current_servo].pulse_width >> 8;
@@ -74,7 +78,7 @@ void set_servo_pin(uint8_t pin) {
   if (servo_count < MAX_SERVOS) {
     pin_set(pin, OUTPUT);
     servopins[MAX_SERVOS - ++servo_count] =
-        (servo_pin){.pin = pin, .pulse_width = 650};
+        (servo_pin){.pin = pin, .pulse_width = 375};
   }
 }
 
