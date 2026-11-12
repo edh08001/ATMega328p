@@ -4,14 +4,14 @@ upload: main.hex
 main.hex: combined.o
 	avr-objcopy -O ihex -j.text -j.data combined.o main.hex
 
-combined.o: main.o servo.o io.o time.o
-	avr-gcc -Os -mmcu=atmega328 main.o servo.o io.o time.o -o combined.o
+combined.o: main.o pwm.o io.o time.o 
+	avr-gcc -Os -mmcu=atmega328 main.o pwm.o io.o time.o -o combined.o
 
-main.o: main.c servo.h time.h
+main.o: main.c pwm.h time.h
 	avr-gcc -Os -c -mmcu=atmega328 main.c
 
-servo.o: servo.c servo.h io.h 
-	avr-gcc -Os -c -mmcu=atmega328 servo.c
+pwm.o: pwm.c pwm.h io.h
+	avr-gcc -Os -c -mmcu=atmega328 pwm.c
 
 io.o: io.c io.h
 	avr-gcc -Os -c -mmcu=atmega328 io.c
